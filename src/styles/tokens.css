@@ -1,0 +1,37 @@
+:root {
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+
+  --color-bg: #ffffff;
+  --color-surface: #f4f2ff;
+  --color-surface-strong: #ede9ff;
+  --color-card: #ffffff;
+  --color-border: rgba(30, 29, 51, 0.12);
+  --color-text: #1e1d33;
+  --color-muted: #6f6a86;
+  --color-accent: #ffb74a;
+  --color-accent-strong: #ffd479;
+  --color-warning: #ffb74a;
+  --color-danger: #ff7a7a;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --shadow-lg: 0 20px 60px rgba(9, 18, 17, 0.55);
+  --shadow-md: 0 12px 28px rgba(6, 12, 11, 0.35);
+
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --container: 1200px;
+  --transition-base: 180ms ease;
+  --header-height: 64px;
+}

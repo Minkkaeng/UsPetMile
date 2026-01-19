@@ -1,30 +1,36 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { NavLink, Route, Routes } from "react-router-dom";
 import "./App.css";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import PlaceDetailPage from "./pages/PlaceDetailPage";
+import PlacesPage from "./pages/PlacesPage";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <div className="app-shell">
+      <header className="app-header">
+        <NavLink className="brand" to="/">
+          UsPetMile
+        </NavLink>
+        <nav className="nav">
+          <NavLink to="/places">Places</NavLink>
+          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/signup" className="nav-cta">
+            Signup
+          </NavLink>
+        </nav>
+      </header>
+      <main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/places" element={<PlacesPage />} />
+          <Route path="/places/:id" element={<PlaceDetailPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 
