@@ -114,7 +114,9 @@ main {
   background: var(--color-surface);
   padding: var(--space-3) var(--space-4);
   color: var(--color-text);
-  transition: border var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    border var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .search-box input:focus {
@@ -148,7 +150,10 @@ main {
   background: transparent;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: transform var(--transition-base), border var(--transition-base), background var(--transition-base);
+  transition:
+    transform var(--transition-base),
+    border var(--transition-base),
+    background var(--transition-base);
 }
 
 .filter-chip:hover {
@@ -225,7 +230,9 @@ main {
   color: #1e1d33;
   font-weight: 600;
   cursor: pointer;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .primary-button:hover {
@@ -247,7 +254,9 @@ main {
   box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-base), border var(--transition-base);
+  transition:
+    transform var(--transition-base),
+    border var(--transition-base);
 }
 
 .place-card:hover {
@@ -528,7 +537,6 @@ main {
   box-sizing: border-box;
 }
 
-
 .auth-page {
   min-height: calc(100vh - 80px);
   display: flex;
@@ -617,7 +625,9 @@ main {
   text-align: center;
   font-weight: 600;
   border: 1px solid transparent;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .social-button:hover {

@@ -8,6 +8,9 @@ import type { Place, PlaceCategory } from "../types/place";
 const categories: Array<"전체" | PlaceCategory> = ["전체", "숙소", "카페", "식당", "관광", "체험"];
 
 type SortOption = "recommended" | "name" | "latest";
+type PetType = "dog" | "cat";
+type DogSize = "all" | "small" | "medium" | "large";
+type ToggleOption = "all" | "yes" | "no";
 
 export default function PlacesPage() {
   const [places, setPlaces] = useState<Place[]>([]);
@@ -17,6 +20,10 @@ export default function PlacesPage() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"전체" | PlaceCategory>("전체");
   const [sortBy, setSortBy] = useState<SortOption>("recommended");
+  const [petType, setPetType] = useState<PetType>("dog");
+  const [dogSize, setDogSize] = useState<DogSize>("all");
+  const [indoorAllowed, setIndoorAllowed] = useState<ToggleOption>("all");
+  const [extraFee, setExtraFee] = useState<ToggleOption>("all");
 
   useEffect(() => {
     let isMounted = true;
@@ -52,6 +59,19 @@ export default function PlacesPage() {
         if (!normalizedQuery) return true;
         const haystack = `${place.title} ${place.address}`.toLowerCase();
         return haystack.includes(normalizedQuery);
+      })
+      .filter((place) => {
+        if (!place.policy) return false;
+        if (petType === "dog" && !place.policy.dogAllowed) return false;
+        if (petType === "cat" && !place.policy.catAllowed) return false;
+        if (petType === "dog" && dogSize !== "all" && !place.policy.dogSize[dogSize]) return false;
+        if (indoorAllowed !== "all") {
+          if (place.policy.indoorAllowed !== (indoorAllowed === "yes")) return false;
+        }
+        if (extraFee !== "all") {
+          if (place.policy.extraFee !== (extraFee === "yes")) return false;
+        }
+        return true;
       });
 
     if (sortBy === "name") {
@@ -66,12 +86,28 @@ export default function PlacesPage() {
   return (
     <section className="page">
       <Container>
-        <div className="page-hero">
-          <h1 className="hero-title">반려동물 동반 장소 리스트</h1>
-          <p className="hero-subtitle">지역, 카테고리, 정책을 기준으로 빠르게 탐색하세요.</p>
-        </div>
+        <div className="page-hero" />
 
         <div className="filter-panel">
+          <div className="filter-group">
+            <span className="filter-label">반려동물</span>
+            <div className="filter-row">
+              <button
+                type="button"
+                className={`chip${petType === "dog" ? " chip--active" : ""}`}
+                onClick={() => setPetType("dog")}
+              >
+                강아지
+              </button>
+              <button
+                type="button"
+                className={`chip${petType === "cat" ? " chip--active" : ""}`}
+                onClick={() => setPetType("cat")}
+              >
+                고양이
+              </button>
+            </div>
+          </div>
           <div className="filter-group">
             <label className="filter-label" htmlFor="place-search">
               검색
@@ -87,15 +123,77 @@ export default function PlacesPage() {
           </div>
           <div className="filter-group">
             <span className="filter-label">카테고리</span>
+            <div className="filter-box">
+              <div className="filter-row">
+                {categories.map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    className={`chip${category === item ? " chip--active" : ""}`}
+                    onClick={() => setCategory(item)}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          {petType === "dog" && (
+            <div className="filter-group">
+              <span className="filter-label">강아지 크기</span>
+              <div className="filter-row">
+                {[
+                  { label: "전체", value: "all" },
+                  { label: "소형", value: "small" },
+                  { label: "중형", value: "medium" },
+                  { label: "대형", value: "large" },
+                ].map((item) => (
+                  <button
+                    key={item.value}
+                    type="button"
+                    className={`chip${dogSize === item.value ? " chip--active" : ""}`}
+                    onClick={() => setDogSize(item.value as DogSize)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          <div className="filter-group">
+            <span className="filter-label">실내 동반</span>
             <div className="filter-row">
-              {categories.map((item) => (
+              {[
+                { label: "전체", value: "all" },
+                { label: "가능", value: "yes" },
+                { label: "불가", value: "no" },
+              ].map((item) => (
                 <button
-                  key={item}
+                  key={item.value}
                   type="button"
-                  className={`chip${category === item ? " chip--active" : ""}`}
-                  onClick={() => setCategory(item)}
+                  className={`chip${indoorAllowed === item.value ? " chip--active" : ""}`}
+                  onClick={() => setIndoorAllowed(item.value as ToggleOption)}
                 >
-                  {item}
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="filter-group">
+            <span className="filter-label">추가요금</span>
+            <div className="filter-row">
+              {[
+                { label: "전체", value: "all" },
+                { label: "있음", value: "yes" },
+                { label: "없음", value: "no" },
+              ].map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  className={`chip${extraFee === item.value ? " chip--active" : ""}`}
+                  onClick={() => setExtraFee(item.value as ToggleOption)}
+                >
+                  {item.label}
                 </button>
               ))}
             </div>
@@ -117,9 +215,7 @@ export default function PlacesPage() {
           </div>
         </div>
 
-        <div className="page-hero">
-          <p className="muted">검색 결과 {filteredPlaces.length}곳</p>
-        </div>
+        <p className="muted">검색 결과 {filteredPlaces.length}곳</p>
 
         {isLoading && (
           <div className="place-grid">

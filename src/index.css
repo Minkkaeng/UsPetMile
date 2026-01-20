@@ -12,9 +12,9 @@ body {
   min-height: 100vh;
   font-family: var(--font-body);
   color: var(--color-text);
-  background: radial-gradient(circle at top, rgba(255, 212, 121, 0.18), transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(255, 183, 74, 0.1), transparent 45%),
-    var(--color-bg);
+  background:
+    radial-gradient(circle at top, rgba(255, 212, 121, 0.18), transparent 55%),
+    radial-gradient(circle at 20% 80%, rgba(255, 183, 74, 0.1), transparent 45%), var(--color-bg);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }

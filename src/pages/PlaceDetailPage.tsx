@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Container from "../components/common/Container";
+import FavoriteButton from "../components/place/FavoriteButton";
+import PolicyTable from "../components/place/PolicyTable";
+import ReviewForm from "../components/place/ReviewForm";
+import ReviewList, { type Review } from "../components/place/ReviewList";
 import { getPlaceById } from "../services/placeApi";
 import type { Place } from "../types/place";
 
@@ -12,6 +16,24 @@ export default function PlaceDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<DetailTab>("info");
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isInquiryOpen, setIsInquiryOpen] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([
+    {
+      id: 1,
+      rating: 4.5,
+      content: "반려견 동반이 편했고 정책 안내가 명확했어요.",
+      author: "초코네",
+      date: "2024-10-12",
+    },
+    {
+      id: 2,
+      rating: 5,
+      content: "동반 규정이 실제와 같아서 신뢰가 갔습니다.",
+      author: "냥집사",
+      date: "2024-10-18",
+    },
+  ]);
 
   useEffect(() => {
     let isMounted = true;
@@ -87,6 +109,12 @@ export default function PlaceDetailPage() {
             <span className={`badge ${place.petPolicy === "OK" ? "badge-ok" : "badge-no"}`}>
               {place.petPolicy === "OK" ? "동반 OK" : "동반 NO"}
             </span>
+            <div className="detail-actions">
+              <FavoriteButton isFavorite={isFavorite} onToggle={() => setIsFavorite((prev) => !prev)} />
+              <button type="button" className="button button-primary" onClick={() => setIsInquiryOpen(true)}>
+                예약 문의
+              </button>
+            </div>
           </div>
         </div>
         <div className="detail-tabs">
@@ -115,12 +143,21 @@ export default function PlaceDetailPage() {
 
         {activeTab === "info" && (
           <section className="detail-panel">
-            <h2>방문 포인트</h2>
-            <ul className="detail-points">
-              {place.points.map((point) => (
-                <li key={`${place.id}-${point}`}>{point}</li>
-              ))}
-            </ul>
+            <h2>매장정보</h2>
+            <div className="detail-info-grid">
+              <div>
+                <h3>정책 표준표</h3>
+                {place.policy ? <PolicyTable policy={place.policy} /> : <p className="muted">정책 준비 중</p>}
+              </div>
+              <div>
+                <h3>포인트</h3>
+                <ul className="detail-points">
+                  {place.points.map((point) => (
+                    <li key={`${place.id}-${point}`}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </section>
         )}
 
@@ -135,14 +172,21 @@ export default function PlaceDetailPage() {
         {activeTab === "reviews" && (
           <section className="detail-panel">
             <h2>리뷰</h2>
-            <div className="review-card">
-              <strong>반려견 동반이 편했어요.</strong>
-              <p className="muted">실내 동선이 넓고 사장님이 반려견 친화적이셨어요.</p>
-            </div>
-            <div className="review-card">
-              <strong>재방문 의사 100%</strong>
-              <p className="muted">포토존과 펫 메뉴가 마음에 들었어요.</p>
-            </div>
+            <ReviewList reviews={reviews} />
+            <ReviewForm
+              onSubmit={(rating, content) =>
+                setReviews((prev) => [
+                  {
+                    id: prev.length + 1,
+                    rating,
+                    content,
+                    author: "방문자",
+                    date: new Date().toISOString().slice(0, 10),
+                  },
+                  ...prev,
+                ])
+              }
+            />
           </section>
         )}
 
@@ -150,6 +194,37 @@ export default function PlaceDetailPage() {
           목록으로
         </Link>
       </Container>
+
+      {isInquiryOpen && (
+        <div className="modal-overlay" role="dialog" aria-modal="true">
+          <div className="modal card">
+            <h3>예약 문의</h3>
+            <p className="muted">{place.title}에 문의를 남겨주세요.</p>
+            <form className="modal-form">
+              <label className="filter-label" htmlFor="visit-date">
+                방문 예정일
+              </label>
+              <input id="visit-date" className="input" type="date" />
+              <label className="filter-label" htmlFor="pet-count">
+                반려동물 수
+              </label>
+              <input id="pet-count" className="input" type="number" min={1} max={5} defaultValue={1} />
+              <label className="filter-label" htmlFor="message">
+                문의 메시지
+              </label>
+              <textarea id="message" className="input review-form__textarea" placeholder="문의 내용을 입력하세요." />
+              <div className="modal-actions">
+                <button type="button" className="button button-ghost" onClick={() => setIsInquiryOpen(false)}>
+                  닫기
+                </button>
+                <button type="submit" className="button button-primary" onClick={() => setIsInquiryOpen(false)}>
+                  문의 보내기
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
