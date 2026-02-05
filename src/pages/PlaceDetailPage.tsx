@@ -1,39 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Container from "../components/common/Container";
-import FavoriteButton from "../components/place/FavoriteButton";
-import PolicyTable from "../components/place/PolicyTable";
-import ReviewForm from "../components/place/ReviewForm";
-import ReviewList, { type Review } from "../components/place/ReviewList";
 import { getPlaceById } from "../services/placeApi";
 import type { Place } from "../types/place";
-
-type DetailTab = "info" | "location" | "reviews";
+import "../styles/places.css";
 
 export default function PlaceDetailPage() {
   const { id } = useParams();
   const [place, setPlace] = useState<Place | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<DetailTab>("info");
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isInquiryOpen, setIsInquiryOpen] = useState(false);
-  const [reviews, setReviews] = useState<Review[]>([
-    {
-      id: 1,
-      rating: 4.5,
-      content: "반려견 동반이 편했고 정책 안내가 명확했어요.",
-      author: "초코네",
-      date: "2024-10-12",
-    },
-    {
-      id: 2,
-      rating: 5,
-      content: "동반 규정이 실제와 같아서 신뢰가 갔습니다.",
-      author: "냥집사",
-      date: "2024-10-18",
-    },
-  ]);
 
   useEffect(() => {
     let isMounted = true;
@@ -52,7 +27,6 @@ export default function PlaceDetailPage() {
         if (isMounted) {
           setPlace(data);
           setError(data ? null : "장소 정보를 찾을 수 없습니다.");
-          setActiveTab("info");
         }
       } catch {
         if (isMounted) {
@@ -72,159 +46,162 @@ export default function PlaceDetailPage() {
 
   if (isLoading) {
     return (
-      <section className="page">
-        <Container>
-          <div className="skeleton" style={{ height: "320px" }} />
-        </Container>
+      <section className="places-page">
+        <div className="places-container">
+          <div style={{ color: "white", padding: "4rem", textAlign: "center" }}>Loading details...</div>
+        </div>
       </section>
     );
   }
 
   if (error || !place) {
     return (
-      <section className="page">
-        <Container>
-          <div className="empty-state">{error ?? "장소를 찾을 수 없습니다."}</div>
-          <div style={{ marginTop: "16px" }}>
-            <Link className="button button-ghost" to="/places">
-              목록으로 돌아가기
+      <section className="places-page">
+        <div className="places-container">
+          <div className="empty-state-new">{error ?? "장소를 찾을 수 없습니다."}</div>
+          <div style={{ marginTop: "2rem", textAlign: "center" }}>
+            <Link className="back-link" to="/places" style={{ display: "inline-flex" }}>
+              <i className="ph ph-arrow-left"></i> 목록으로 돌아가기
             </Link>
           </div>
-        </Container>
+        </div>
       </section>
     );
   }
 
   return (
-    <section className="page">
-      <Container>
-        <div className="detail-hero">
-          <div className="detail-hero__media">
-            {place.image ? <img src={place.image} alt={place.title} /> : <div className="media-fallback" />}
+    <section style={{ backgroundColor: "black", minHeight: "100vh", paddingBottom: "4rem" }}>
+      {/* Hero Section */}
+      <div className="detail-hero-section">
+        {place.image ? (
+          <img src={place.image} alt={place.title} className="detail-hero-image" />
+        ) : (
+          <div className="detail-hero-image" style={{ background: "#222" }} />
+        )}
+        <div className="detail-overlay">
+          <div className="detail-header-content">
+            <Link to="/places" className="back-link" style={{ marginBottom: "1rem", color: "rgba(255,255,255,0.7)" }}>
+              <i className="ph ph-arrow-left"></i> Back to List
+            </Link>
+            <div className="detail-badge">{place.category}</div>
+            <h1 className="detail-title">{place.title}</h1>
+            <p className="detail-address">
+              <i className="ph-fill ph-map-pin"></i>
+              {place.address}
+            </p>
           </div>
-          <div className="detail-meta">
-            <span className="place-card__category">{place.category}</span>
-            <h1 className="hero-title">{place.title}</h1>
-            <p className="muted">{place.address}</p>
-            <span className={`badge ${place.petPolicy === "OK" ? "badge-ok" : "badge-no"}`}>
-              {place.petPolicy === "OK" ? "동반 OK" : "동반 NO"}
-            </span>
-            <div className="detail-actions">
-              <FavoriteButton isFavorite={isFavorite} onToggle={() => setIsFavorite((prev) => !prev)} />
-              <button type="button" className="button button-primary" onClick={() => setIsInquiryOpen(true)}>
-                예약 문의
-              </button>
+        </div>
+      </div>
+
+      <div className="places-container detail-grid">
+        {/* Left Column: Main Info */}
+        <div className="detail-main">
+          {/* Points Section */}
+          <div className="mb-10">
+            <h2 className="section-title">
+              <i className="ph-fill ph-star"></i> Key Points
+            </h2>
+            <div className="point-list">
+              {place.points && place.points.length > 0 ? (
+                place.points.map((point, index) => (
+                  <div key={index} className="point-item">
+                    <i className="ph-fill ph-check-circle point-icon"></i>
+                    <div>
+                      <strong style={{ display: "block", marginBottom: "0.25rem", color: "white" }}>
+                        Point {index + 1}
+                      </strong>
+                      <span style={{ color: "#aaa" }}>{point}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="muted">등록된 포인트가 없습니다.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Tags Section */}
+          <div className="mb-10">
+            <h2 className="section-title">
+              <i className="ph-fill ph-tag"></i> Tags
+            </h2>
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+              {place.tags.map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    background: "#222",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "2rem",
+                    fontSize: "0.9rem",
+                    color: "#ccc",
+                  }}
+                >
+                  #{tag}
+                </span>
+              ))}
             </div>
           </div>
         </div>
-        <div className="detail-tabs">
-          <button
-            type="button"
-            className={`detail-tab${activeTab === "info" ? " detail-tab--active" : ""}`}
-            onClick={() => setActiveTab("info")}
-          >
-            매장정보
-          </button>
-          <button
-            type="button"
-            className={`detail-tab${activeTab === "location" ? " detail-tab--active" : ""}`}
-            onClick={() => setActiveTab("location")}
-          >
-            위치
-          </button>
-          <button
-            type="button"
-            className={`detail-tab${activeTab === "reviews" ? " detail-tab--active" : ""}`}
-            onClick={() => setActiveTab("reviews")}
-          >
-            리뷰
-          </button>
-        </div>
 
-        {activeTab === "info" && (
-          <section className="detail-panel">
-            <h2>매장정보</h2>
-            <div className="detail-info-grid">
-              <div>
-                <h3>정책 표준표</h3>
-                {place.policy ? <PolicyTable policy={place.policy} /> : <p className="muted">정책 준비 중</p>}
-              </div>
-              <div>
-                <h3>포인트</h3>
-                <ul className="detail-points">
-                  {place.points.map((point) => (
-                    <li key={`${place.id}-${point}`}>{point}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </section>
-        )}
+        {/* Right Column: Sticky Policy Card */}
+        <div className="detail-sidebar">
+          <div className="policy-card">
+            <h3
+              style={{
+                fontSize: "1.25rem",
+                fontWeight: "bold",
+                marginBottom: "1.5rem",
+                borderBottom: "1px solid #333",
+                paddingBottom: "1rem",
+              }}
+            >
+              Pet Policy
+            </h3>
 
-        {activeTab === "location" && (
-          <section className="detail-panel">
-            <h2>위치</h2>
-            <div className="detail-map">지도 연동 예정</div>
-            <p className="muted">{place.address}</p>
-          </section>
-        )}
+            {place.policy ? (
+              <>
+                <div className="policy-row">
+                  <span className="policy-label">동반 가능 여부</span>
+                  <span className="policy-value">{place.petPolicy === "OK" ? "반려동물 환영" : "동반 불가"}</span>
+                </div>
+                <div className="policy-row">
+                  <span className="policy-label">최대 마리수</span>
+                  <span className="policy-value">{place.policy.maxPets}마리</span>
+                </div>
+                <div className="policy-row">
+                  <span className="policy-label">강아지 크기</span>
+                  <span className="policy-value">
+                    {[
+                      place.policy.dogSize.small && "소형",
+                      place.policy.dogSize.medium && "중형",
+                      place.policy.dogSize.large && "대형",
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
+                  </span>
+                </div>
+                <div className="policy-row">
+                  <span className="policy-label">고양이 동반</span>
+                  <span className="policy-value">{place.policy.catAllowed ? "가능" : "불가"}</span>
+                </div>
+                <div className="policy-row">
+                  <span className="policy-label">실내 동반</span>
+                  <span className="policy-value">{place.policy.indoorAllowed ? "가능" : "불가"}</span>
+                </div>
+                <div className="policy-row">
+                  <span className="policy-label">추가 요금</span>
+                  <span className="policy-value">{place.policy.extraFee ? "있음" : "없음"}</span>
+                </div>
+              </>
+            ) : (
+              <p className="muted">정책 정보가 없습니다.</p>
+            )}
 
-        {activeTab === "reviews" && (
-          <section className="detail-panel">
-            <h2>리뷰</h2>
-            <ReviewList reviews={reviews} />
-            <ReviewForm
-              onSubmit={(rating, content) =>
-                setReviews((prev) => [
-                  {
-                    id: prev.length + 1,
-                    rating,
-                    content,
-                    author: "방문자",
-                    date: new Date().toISOString().slice(0, 10),
-                  },
-                  ...prev,
-                ])
-              }
-            />
-          </section>
-        )}
-
-        <Link className="button button-ghost" to="/places">
-          목록으로
-        </Link>
-      </Container>
-
-      {isInquiryOpen && (
-        <div className="modal-overlay" role="dialog" aria-modal="true">
-          <div className="modal card">
-            <h3>예약 문의</h3>
-            <p className="muted">{place.title}에 문의를 남겨주세요.</p>
-            <form className="modal-form">
-              <label className="filter-label" htmlFor="visit-date">
-                방문 예정일
-              </label>
-              <input id="visit-date" className="input" type="date" />
-              <label className="filter-label" htmlFor="pet-count">
-                반려동물 수
-              </label>
-              <input id="pet-count" className="input" type="number" min={1} max={5} defaultValue={1} />
-              <label className="filter-label" htmlFor="message">
-                문의 메시지
-              </label>
-              <textarea id="message" className="input review-form__textarea" placeholder="문의 내용을 입력하세요." />
-              <div className="modal-actions">
-                <button type="button" className="button button-ghost" onClick={() => setIsInquiryOpen(false)}>
-                  닫기
-                </button>
-                <button type="submit" className="button button-primary" onClick={() => setIsInquiryOpen(false)}>
-                  문의 보내기
-                </button>
-              </div>
-            </form>
+            <button className="booking-btn">예약하기 / 문의하기</button>
           </div>
         </div>
-      )}
+      </div>
     </section>
   );
 }

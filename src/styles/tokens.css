@@ -2,15 +2,15 @@
   --font-display: "Fraunces", "Times New Roman", serif;
   --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
 
-  --color-bg: #ffffff;
-  --color-surface: #f4f2ff;
-  --color-surface-strong: #ede9ff;
-  --color-card: #ffffff;
-  --color-border: rgba(30, 29, 51, 0.12);
-  --color-text: #1e1d33;
-  --color-muted: #6f6a86;
-  --color-accent: #ffb74a;
-  --color-accent-strong: #ffd479;
+  --color-bg: #000000;
+  --color-surface: #121212;
+  --color-surface-strong: #1e1e1e;
+  --color-card: #2c2c2c;
+  --color-border: rgba(255, 255, 255, 0.15);
+  --color-text: #ffffff;
+  --color-muted: #a0a0a0;
+  --color-accent: #ffffff;
+  --color-accent-strong: #e0e0e0;
   --color-warning: #ffb74a;
   --color-danger: #ff7a7a;
 
@@ -18,8 +18,8 @@
   --radius-md: 14px;
   --radius-sm: 10px;
 
-  --shadow-lg: 0 20px 60px rgba(9, 18, 17, 0.55);
-  --shadow-md: 0 12px 28px rgba(6, 12, 11, 0.35);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.7);
+  --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.5);
 
   --space-2: 8px;
   --space-3: 12px;
@@ -32,6 +32,6 @@
   --space-16: 64px;
 
   --container: 1200px;
-  --transition-base: 180ms ease;
+  --transition-base: 200ms ease;
   --header-height: 64px;
 }

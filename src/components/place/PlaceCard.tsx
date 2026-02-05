@@ -9,30 +9,29 @@ export default function PlaceCard({ place }: PlaceCardProps) {
   const tags = place.tags.slice(0, 3);
 
   return (
-    <article className="place-card card">
-      <div className="place-card__media">
-        {place.image ? <img src={place.image} alt={place.title} loading="lazy" /> : <div className="media-fallback" />}
-        <span className={`badge ${place.petPolicy === "OK" ? "badge-ok" : "badge-no"}`}>
-          {place.petPolicy === "OK" ? "동반 OK" : "동반 NO"}
-        </span>
+    <Link to={`/places/${place.id}`} className="place-card-new">
+      <div className="card-image-wrapper">
+        {place.image ? (
+          <img src={place.image} alt={place.title} className="card-image" loading="lazy" />
+        ) : (
+          <div className="card-image" style={{ background: "#333" }} />
+        )}
+        <span className="card-badge">{place.petPolicy === "OK" ? "PET OK" : "NO PETS"}</span>
       </div>
-      <div className="place-card__content">
-        <div className="place-card__meta">
-          <span className="place-card__category">{place.category}</span>
-          <h3>{place.title}</h3>
-        </div>
-        <p className="place-card__address muted">{place.address}</p>
-        <div className="place-card__tags">
+
+      <div className="card-content">
+        <span className="card-category">{place.category}</span>
+        <h3 className="card-title">{place.title}</h3>
+        <p className="card-address">{place.address}</p>
+
+        <div className="card-tags">
           {tags.map((tag) => (
-            <span key={`${place.id}-${tag}`} className="chip">
+            <span key={`${place.id}-${tag}`} className="card-tag">
               #{tag}
             </span>
           ))}
         </div>
-        <Link className="button button-ghost" to={`/places/${place.id}`}>
-          상세 보기
-        </Link>
       </div>
-    </article>
+    </Link>
   );
 }

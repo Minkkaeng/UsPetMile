@@ -1,4 +1,4 @@
-import { NavLink, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -7,20 +7,25 @@ import PlacesPage from "./pages/PlacesPage";
 import SignupPage from "./pages/SignupPage";
 
 function App() {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
-    <div className="app-shell">
-      <header className="app-header">
-        <NavLink className="brand" to="/">
-          UsPetMile
-        </NavLink>
-        <nav className="nav">
-          <NavLink to="/places">Places</NavLink>
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/signup" className="nav-cta">
-            Signup
+    <div className={`app-shell ${isHomePage ? "app-shell--home" : ""}`}>
+      {!isHomePage && (
+        <header className="app-header">
+          <NavLink className="brand" to="/">
+            UsPetMile
           </NavLink>
-        </nav>
-      </header>
+          <nav className="nav">
+            <NavLink to="/places">Places</NavLink>
+            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/signup" className="nav-cta">
+              Signup
+            </NavLink>
+          </nav>
+        </header>
+      )}
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />

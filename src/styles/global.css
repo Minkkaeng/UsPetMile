@@ -204,7 +204,7 @@ select {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 3vw, 2.4rem);
   letter-spacing: 0.08em;
-  background: linear-gradient(180deg, rgba(30, 29, 51, 0.2), rgba(30, 29, 51, 0.55));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
   padding: var(--space-6);
 }
 
@@ -227,8 +227,8 @@ select {
   left: 20px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(30, 29, 51, 0.15);
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   font-size: 0.75rem;
   letter-spacing: 0.2em;
 }
@@ -326,7 +326,7 @@ select {
   height: var(--header-height);
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
   z-index: 10;
@@ -364,7 +364,7 @@ select {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(20, 20, 20, 0.92);
   border-top: 1px solid var(--color-border);
   display: none;
   z-index: 9;
@@ -398,12 +398,14 @@ select {
   border: 1px solid transparent;
   cursor: pointer;
   font-weight: 600;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .button-primary {
   background: var(--color-accent);
-  color: #1e1d33;
+  color: #000000;
 }
 
 .button-ghost {
@@ -428,8 +430,8 @@ select {
 
 .input:focus {
   outline: none;
-  border-color: rgba(255, 183, 74, 0.6);
-  box-shadow: 0 0 0 3px rgba(255, 183, 74, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
 .select {
@@ -447,28 +449,29 @@ select {
 }
 
 .badge-ok {
-  background: rgba(255, 183, 74, 0.95);
-  color: #1e1d33;
+  background: rgba(255, 255, 255, 0.95);
+  color: #000000;
 }
 
 .badge-no {
-  background: rgba(255, 122, 122, 0.85);
-  color: #1e1d33;
+  background: rgba(100, 100, 100, 0.85);
+  color: #ffffff;
 }
 
 .chip {
   border-radius: 999px;
-  border: 1px solid rgba(255, 183, 74, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   padding: 4px 10px;
   font-size: 0.75rem;
-  background: rgba(255, 183, 74, 0.12);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--color-text);
   cursor: pointer;
 }
 
 .chip--active {
-  background: rgba(255, 183, 74, 0.28);
-  border-color: rgba(255, 183, 74, 0.75);
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
+  color: #000000;
 }
 
 .muted {
@@ -476,7 +479,7 @@ select {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, rgba(236, 232, 255, 0.08), rgba(236, 232, 255, 0.18), rgba(236, 232, 255, 0.08));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   background-size: 200% 100%;
   animation: shimmer 1.4s ease infinite;
   border-radius: 12px;
@@ -515,7 +518,7 @@ select {
 }
 
 .media-fallback {
-  background: linear-gradient(135deg, rgba(255, 183, 74, 0.2), rgba(255, 212, 121, 0.05));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
 }
 
 .place-card__content {
@@ -674,13 +677,16 @@ select {
   color: var(--color-muted);
   padding: 6px 14px;
   cursor: pointer;
-  transition: border var(--transition-base), color var(--transition-base), background var(--transition-base);
+  transition:
+    border var(--transition-base),
+    color var(--transition-base),
+    background var(--transition-base);
 }
 
 .detail-tab--active {
-  color: var(--color-text);
-  background: rgba(255, 183, 74, 0.18);
-  border-color: rgba(255, 183, 74, 0.7);
+  color: #000000;
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
 }
 
 .detail-panel {
@@ -770,14 +776,14 @@ select {
 }
 
 .favorite-button--active {
-  border-color: rgba(255, 183, 74, 0.8);
-  background: rgba(255, 183, 74, 0.15);
+  border-color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(30, 29, 51, 0.35);
+  background: rgba(0, 0, 0, 0.7);
   display: grid;
   place-items: center;
   padding: var(--space-6);
@@ -862,7 +868,9 @@ select {
   text-align: center;
   font-weight: 600;
   border: 1px solid transparent;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .social-button:hover {

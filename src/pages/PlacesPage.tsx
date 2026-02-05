@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import Container from "../components/common/Container";
 import PlaceCard from "../components/place/PlaceCard";
-import PlaceCardSkeleton from "../components/place/PlaceCardSkeleton";
 import { getPlaces } from "../services/placeApi";
 import type { Place, PlaceCategory } from "../types/place";
+import "../styles/places.css";
 
 const categories: Array<"전체" | PlaceCategory> = ["전체", "숙소", "카페", "식당", "관광", "체험"];
 
@@ -84,161 +83,149 @@ export default function PlacesPage() {
   }, [places, category, query, sortBy]);
 
   return (
-    <section className="page">
-      <Container>
-        <div className="page-hero" />
+    <section className="places-page">
+      <div className="places-container">
+        {/* Header */}
+        <div className="places-header">
+          <h1 className="places-title">Find Your Place</h1>
+          <p className="places-subtitle">
+            반려동물과 함께할 수 있는 최고의 장소들을 발견하세요.
+            <br />
+            엄선된 숙소, 카페, 맛집이 기다리고 있습니다.
+          </p>
+        </div>
 
-        <div className="filter-panel">
-          <div className="filter-group">
-            <span className="filter-label">반려동물</span>
-            <div className="filter-row">
-              <button
-                type="button"
-                className={`chip${petType === "dog" ? " chip--active" : ""}`}
-                onClick={() => setPetType("dog")}
-              >
-                강아지
-              </button>
-              <button
-                type="button"
-                className={`chip${petType === "cat" ? " chip--active" : ""}`}
-                onClick={() => setPetType("cat")}
-              >
-                고양이
-              </button>
+        {/* Filters */}
+        <div className="filter-section">
+          {/* Top Row: Search & Main Sort */}
+          <div className="filter-row-main">
+            <div className="filter-group-new">
+              <span className="filter-label-new">Type</span>
+              {["dog", "cat"].map((type) => (
+                <button
+                  key={type}
+                  className={`chip-new ${petType === type ? "active" : ""}`}
+                  onClick={() => setPetType(type as PetType)}
+                >
+                  {type === "dog" ? "DOG" : "CAT"}
+                </button>
+              ))}
+            </div>
+
+            <div className="search-wrapper">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search places..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <i className="ph ph-magnifying-glass search-icon"></i>
             </div>
           </div>
-          <div className="filter-group">
-            <label className="filter-label" htmlFor="place-search">
-              검색
-            </label>
-            <input
-              id="place-search"
-              className="input"
-              type="search"
-              placeholder="장소명 또는 주소 검색"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
+
+          {/* Categories */}
+          <div className="filter-group-new">
+            <span className="filter-label-new">Category</span>
+            {categories.map((item) => (
+              <button
+                key={item}
+                className={`chip-new ${category === item ? "active" : ""}`}
+                onClick={() => setCategory(item)}
+              >
+                {item}
+              </button>
+            ))}
           </div>
-          <div className="filter-group">
-            <span className="filter-label">카테고리</span>
-            <div className="filter-box">
-              <div className="filter-row">
-                {categories.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    className={`chip${category === item ? " chip--active" : ""}`}
-                    onClick={() => setCategory(item)}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-          {petType === "dog" && (
-            <div className="filter-group">
-              <span className="filter-label">강아지 크기</span>
-              <div className="filter-row">
+
+          {/* Detailed Filters (Conditional) */}
+          <div className="filter-row-main" style={{ alignItems: "flex-start", gap: "2rem" }}>
+            {petType === "dog" && (
+              <div className="filter-group-new">
+                <span className="filter-label-new">Size</span>
                 {[
-                  { label: "전체", value: "all" },
-                  { label: "소형", value: "small" },
-                  { label: "중형", value: "medium" },
-                  { label: "대형", value: "large" },
+                  { label: "ALL", value: "all" },
+                  { label: "SMALL", value: "small" },
+                  { label: "MEDIUM", value: "medium" },
+                  { label: "LARGE", value: "large" },
                 ].map((item) => (
                   <button
                     key={item.value}
-                    type="button"
-                    className={`chip${dogSize === item.value ? " chip--active" : ""}`}
+                    className={`chip-new ${dogSize === item.value ? "active" : ""}`}
                     onClick={() => setDogSize(item.value as DogSize)}
                   >
                     {item.label}
                   </button>
                 ))}
               </div>
+            )}
+
+            <div className="filter-group-new">
+              <span className="filter-label-new">Options</span>
+              <button
+                className={`chip-new ${indoorAllowed === "yes" ? "active" : ""}`}
+                onClick={() => setIndoorAllowed(indoorAllowed === "yes" ? "all" : "yes")}
+              >
+                INDOOR
+              </button>
+              <button
+                className={`chip-new ${extraFee === "no" ? "active" : ""}`}
+                onClick={() => setExtraFee(extraFee === "no" ? "all" : "no")}
+              >
+                NO EXTRA FEE
+              </button>
             </div>
-          )}
-          <div className="filter-group">
-            <span className="filter-label">실내 동반</span>
-            <div className="filter-row">
-              {[
-                { label: "전체", value: "all" },
-                { label: "가능", value: "yes" },
-                { label: "불가", value: "no" },
-              ].map((item) => (
-                <button
-                  key={item.value}
-                  type="button"
-                  className={`chip${indoorAllowed === item.value ? " chip--active" : ""}`}
-                  onClick={() => setIndoorAllowed(item.value as ToggleOption)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="filter-group">
-            <span className="filter-label">추가요금</span>
-            <div className="filter-row">
-              {[
-                { label: "전체", value: "all" },
-                { label: "있음", value: "yes" },
-                { label: "없음", value: "no" },
-              ].map((item) => (
-                <button
-                  key={item.value}
-                  type="button"
-                  className={`chip${extraFee === item.value ? " chip--active" : ""}`}
-                  onClick={() => setExtraFee(item.value as ToggleOption)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="filter-group">
-            <label className="filter-label" htmlFor="place-sort">
-              정렬
-            </label>
-            <select
-              id="place-sort"
-              className="select"
-              value={sortBy}
-              onChange={(event) => setSortBy(event.target.value as SortOption)}
-            >
-              <option value="recommended">추천순</option>
-              <option value="name">이름순</option>
-              <option value="latest">최신순</option>
-            </select>
           </div>
         </div>
 
-        <p className="muted">검색 결과 {filteredPlaces.length}곳</p>
+        {/* Results */}
+        <div
+          className="results-header"
+          style={{
+            marginBottom: "1rem",
+            color: "#666",
+            fontSize: "0.875rem",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span>Showing {filteredPlaces.length} places</span>
+
+          <select
+            className="search-input"
+            style={{ width: "auto", padding: "0.5rem 2rem 0.5rem 1rem", fontSize: "0.875rem" }}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+          >
+            <option value="recommended">Recommended</option>
+            <option value="latest">Newest</option>
+            <option value="name">Name</option>
+          </select>
+        </div>
 
         {isLoading && (
-          <div className="place-grid">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <PlaceCardSkeleton key={`skeleton-${index}`} />
-            ))}
+          <div className="places-grid-new">
+            {/* Skeletons could go here, for now just loading text or reuse skeleton component if adapted */}
+            <div style={{ color: "white" }}>Loading...</div>
           </div>
         )}
 
-        {!isLoading && error && <div className="empty-state">{error}</div>}
-
         {!isLoading && !error && filteredPlaces.length === 0 && (
-          <div className="empty-state">검색 조건에 맞는 장소가 없어요.</div>
+          <div className="empty-state-new">
+            <i className="ph ph-paw-print" style={{ fontSize: "3rem", marginBottom: "1rem", display: "block" }}></i>
+            No places found matching your criteria.
+          </div>
         )}
 
         {!isLoading && !error && filteredPlaces.length > 0 && (
-          <div className="place-grid">
+          <div className="places-grid-new">
             {filteredPlaces.map((place) => (
               <PlaceCard key={place.id} place={place} />
             ))}
           </div>
         )}
-      </Container>
+      </div>
     </section>
   );
 }
