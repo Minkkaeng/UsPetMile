@@ -28,4 +28,12 @@ export type Place = {
   points: string[];
   image?: string;
   policy?: PlacePolicyStandard;
+  description?: string;
+  phoneNumber?: string;
+  homepageUrl?: string;
+  operatingHours?: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
 };

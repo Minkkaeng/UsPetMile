@@ -10,6 +10,12 @@ const mockPlaces: Place[] = [
     tags: ["해변", "대형견", "산책로"],
     points: ["올레길 7코스 인접", "반려견 전용 샤워룸"],
     image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80",
+    description:
+      "제주 애월의 푸른 바다를 반려견과 함께 즐기세요. 넓은 잔디 마당과 바로 앞 해변 산책로가 있어 반려견들이 뛰어놀기 최적의 장소입니다.",
+    phoneNumber: "064-777-1234",
+    homepageUrl: "https://haesong-pet.com",
+    operatingHours: "입실 15:00 / 퇴실 11:00",
+    coordinates: { lat: 33.465, lng: 126.32 },
     policy: {
       dogAllowed: true,
       catAllowed: true,
@@ -31,6 +37,11 @@ const mockPlaces: Place[] = [
     tags: ["루프탑", "디저트", "야경"],
     points: ["댕댕이 전용 간식 제공", "야경 뷰 포토존"],
     image: "https://images.unsplash.com/photo-1507138451611-3001135909fa?auto=format&fit=crop&w=900&q=80",
+    description:
+      "홍대 중심에서 즐기는 반려견과의 여유. 탁 트인 루프탑에서 서울의 야경을 감상하며 수제 간식을 즐겨보세요.",
+    phoneNumber: "02-333-5555",
+    operatingHours: "매일 11:00 - 22:00",
+    coordinates: { lat: 37.553, lng: 126.923 },
     policy: {
       dogAllowed: true,
       catAllowed: false,
@@ -52,6 +63,12 @@ const mockPlaces: Place[] = [
     tags: ["브런치", "테라스", "예약"],
     points: ["펫 메뉴 주문 가능", "예약 시 창가 우선"],
     image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=900&q=80",
+    description:
+      "반려견과 함께 파인다이닝을 경험하세요. 셰프가 직접 만드는 펫밀이 준비되어 있어 보호자와 반려견 모두 행복한 식사가 가능합니다.",
+    phoneNumber: "051-744-8888",
+    homepageUrl: "https://dodam-kitchen.com",
+    operatingHours: "11:30 - 21:00 (Break 15:00-17:00)",
+    coordinates: { lat: 35.155, lng: 129.14 },
     policy: {
       dogAllowed: true,
       catAllowed: false,
@@ -73,6 +90,8 @@ const mockPlaces: Place[] = [
     tags: ["전망", "산책", "노을"],
     points: ["반려견 동반 산책로", "일몰 포인트 안내"],
     image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+    description: "동해바다가 한눈에 내려다보이는 숨은 명소. 반려견과 함께 걷기 좋은 완만한 산책로가 조성되어 있습니다.",
+    coordinates: { lat: 37.85, lng: 128.85 },
     policy: {
       dogAllowed: true,
       catAllowed: false,
@@ -94,6 +113,11 @@ const mockPlaces: Place[] = [
     tags: ["자연", "야외", "체험"],
     points: ["안전장비 착용 필수", "펫 대기 공간 별도"],
     image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80",
+    description:
+      "자연 속에서 즐기는 다양한 엑티비티. 반려견을 위한 어질리티 존과 보호자를 위한 휴식 공간이 마련되어 있습니다.",
+    phoneNumber: "031-772-9999",
+    operatingHours: "주말 10:00 - 18:00 (예약제)",
+    coordinates: { lat: 37.53, lng: 127.32 },
     policy: {
       dogAllowed: true,
       catAllowed: false,
@@ -115,6 +139,10 @@ const mockPlaces: Place[] = [
     tags: ["도심", "조용함", "주차"],
     points: ["소형견 전용 룸 준비중", "공용 구역 동반 제한"],
     image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80",
+    description: "도심 속 프라이빗한 휴식 공간. 감성적인 인테리어와 반려견을 위한 웰컴 키트가 제공됩니다.",
+    phoneNumber: "053-111-2222",
+    operatingHours: "입실 16:00 / 퇴실 12:00",
+    coordinates: { lat: 35.83, lng: 128.62 },
     policy: {
       dogAllowed: true,
       catAllowed: true,
@@ -136,6 +164,9 @@ const mockPlaces: Place[] = [
     tags: ["강변", "산책", "야경"],
     points: ["야간 조명 산책로", "반려견 쉼터 구역 운영"],
     image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+    description:
+      "한강을 따라 이어지는 아름다운 산책 코스. 저녁 노을과 야경이 아름다우며 곳곳에 반려견 쉼터가 있습니다.",
+    coordinates: { lat: 37.6, lng: 127.15 },
     policy: {
       dogAllowed: true,
       catAllowed: true,
@@ -157,6 +188,10 @@ const mockPlaces: Place[] = [
     tags: ["브런치", "펫메뉴", "예약"],
     points: ["펫 전용 메뉴 제공", "주말 방문 예약 권장"],
     image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=900&q=80",
+    description: "성수동 핫플레이스에서 즐기는 건강한 브런치. 유기농 재료로 만든 펫 푸드가 인기 메뉴입니다.",
+    phoneNumber: "02-466-7777",
+    operatingHours: "09:00 - 17:00 (Last Order 16:30)",
+    coordinates: { lat: 37.54, lng: 127.05 },
     policy: {
       dogAllowed: true,
       catAllowed: false,
@@ -178,6 +213,9 @@ const mockPlaces: Place[] = [
     tags: ["야외", "정원", "디저트"],
     points: ["야외 정원 좌석 운영", "포토존 이벤트 진행"],
     image: "https://images.unsplash.com/photo-1507138451611-3001135909fa?auto=format&fit=crop&w=900&q=80",
+    description: "한옥마을 인근의 고즈넉한 정원 카페. 넓은 잔디밭에서 아이들이 마음껏 뛰어놀 수 있습니다.",
+    operatingHours: "12:00 - 21:00 (월요일 휴무)",
+    coordinates: { lat: 35.81, lng: 127.14 },
     policy: {
       dogAllowed: true,
       catAllowed: true,
@@ -199,6 +237,11 @@ const mockPlaces: Place[] = [
     tags: ["독채", "바베큐", "대형견"],
     points: ["울타리 있는 마당", "애견 용품 무료 대여"],
     image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80",
+    description:
+      "오직 우리만을 위한 프라이빗 독채 펜션. 높게 쳐진 울타리로 대형견도 안심하고 뛰어놀 수 있는 마당이 있습니다.",
+    phoneNumber: "010-1234-5678",
+    operatingHours: "입실 15:00 / 퇴실 11:00",
+    coordinates: { lat: 37.56, lng: 128.37 },
     policy: {
       dogAllowed: true,
       catAllowed: true,
@@ -220,6 +263,10 @@ const mockPlaces: Place[] = [
     tags: ["목장", "체험", "야외"],
     points: ["안전교육 후 입장", "펫 대기 공간 별도"],
     image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80",
+    description: "드넓은 초원에서 펼쳐지는 특별한 목장 체험. 양몰이 공연과 목장 투어를 반려견과 함께 즐겨보세요.",
+    phoneNumber: "041-660-9999",
+    operatingHours: "10:00 - 17:00",
+    coordinates: { lat: 36.95, lng: 126.43 },
     policy: {
       dogAllowed: true,
       catAllowed: false,
@@ -241,6 +288,11 @@ const mockPlaces: Place[] = [
     tags: ["실내", "라운지", "예약"],
     points: ["예약제 운영", "동반 입장 규정 안내 필수"],
     image: "https://images.unsplash.com/photo-1507138451611-3001135909fa?auto=format&fit=crop&w=900&q=80",
+    description:
+      "송도 센트럴파크 뷰를 자랑하는 프리미엄 펫 라운지. 전문 펫시터가 상주하여 더욱 편안한 휴식이 가능합니다.",
+    phoneNumber: "032-888-7777",
+    operatingHours: "10:00 - 20:00",
+    coordinates: { lat: 37.39, lng: 126.64 },
     policy: {
       dogAllowed: true,
       catAllowed: true,

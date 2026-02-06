@@ -1,5 +1,6 @@
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
+import ScrollToTop from "./components/common/ScrollToTop";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import PlaceDetailPage from "./pages/PlaceDetailPage";
@@ -12,6 +13,7 @@ function App() {
 
   return (
     <div className={`app-shell ${isHomePage ? "app-shell--home" : ""}`}>
+      <ScrollToTop />
       {!isHomePage && (
         <header className="app-header">
           <NavLink className="brand" to="/">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import KakaoMap from "../components/common/KakaoMap";
 import { getPlaceById } from "../services/placeApi";
 import type { Place } from "../types/place";
 import "../styles/places.css";
@@ -96,6 +97,85 @@ export default function PlaceDetailPage() {
       <div className="places-container detail-grid">
         {/* Left Column: Main Info */}
         <div className="detail-main">
+          {/* Description */}
+          <div className="mb-10">
+            <h2 className="section-title">
+              <i className="ph-fill ph-info"></i> About
+            </h2>
+            <p style={{ color: "#ddd", lineHeight: "1.8", fontSize: "1.1rem" }}>
+              {place.description || "등록된 소개가 없습니다."}
+            </p>
+          </div>
+
+          {/* Info Table (Phone, Hours, Use) */}
+          <div className="mb-10">
+            <h2 className="section-title">
+              <i className="ph-fill ph-list-dashes"></i> Information
+            </h2>
+            <div className="point-list" style={{ gridTemplateColumns: "1fr", gap: "1rem" }}>
+              {place.phoneNumber && (
+                <div className="point-item">
+                  <i className="ph-fill ph-phone point-icon"></i>
+                  <div>
+                    <strong style={{ display: "block", marginBottom: "0.25rem", color: "white" }}>Phone</strong>
+                    <span style={{ color: "#aaa" }}>{place.phoneNumber}</span>
+                  </div>
+                </div>
+              )}
+              {place.operatingHours && (
+                <div className="point-item">
+                  <i className="ph-fill ph-clock point-icon"></i>
+                  <div>
+                    <strong style={{ display: "block", marginBottom: "0.25rem", color: "white" }}>Hours</strong>
+                    <span style={{ color: "#aaa" }}>{place.operatingHours}</span>
+                  </div>
+                </div>
+              )}
+              {place.homepageUrl && (
+                <div className="point-item">
+                  <i className="ph-fill ph-globe point-icon"></i>
+                  <div>
+                    <strong style={{ display: "block", marginBottom: "0.25rem", color: "white" }}>Website</strong>
+                    <a
+                      href={place.homepageUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ color: "#aaa", textDecoration: "underline" }}
+                    >
+                      Visit Website
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Map Section */}
+          <div className="mb-10">
+            <h2 className="section-title">
+              <i className="ph-fill ph-map-trifold"></i> Location
+            </h2>
+            {place.coordinates ? (
+              <KakaoMap lat={place.coordinates.lat} lng={place.coordinates.lng} />
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  height: "300px",
+                  background: "#111",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "0.5rem",
+                  color: "#666",
+                }}
+              >
+                지도를 불러올 수 없습니다.
+              </div>
+            )}
+            <p style={{ marginTop: "1rem", color: "#888" }}>{place.address}</p>
+          </div>
+
           {/* Points Section */}
           <div className="mb-10">
             <h2 className="section-title">

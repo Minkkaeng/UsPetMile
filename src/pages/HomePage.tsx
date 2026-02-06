@@ -77,7 +77,7 @@ export default function HomePage() {
 
           <div className="video-overlay"></div>
 
-          <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center gap-10 py-12">
             <p
               className="animate-fade-up"
               style={{
