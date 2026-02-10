@@ -19,35 +19,40 @@ import ServiceMainPage from "../pages/ServiceMainPage";
 import SignupPage from "../pages/SignupPage";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <RootLayout />,
+      children: [
+        { index: true, element: <HomePage /> },
+        { path: "main", element: <ServiceMainPage /> },
+        { path: "places", element: <PlacesPage /> },
+        { path: "places/:id", element: <PlaceDetailPage /> },
+        { path: "login", element: <LoginPage /> },
+        { path: "login/callback", element: <LoginCallbackPage /> },
+        { path: "signup", element: <SignupPage /> },
+        {
+          element: <ProtectedRoute />,
+          children: [
+            { path: "mypage", element: <MyPage /> },
+            { path: "mypage/favorites", element: <FavoritesPage /> },
+            { path: "mypage/reviews", element: <ReviewsPage /> },
+            { path: "mypage/profile", element: <ProfilePage /> },
+          ],
+        },
+        { path: "admin", element: <AdminHomePage /> },
+        { path: "admin/places", element: <AdminPlacesPage /> },
+        { path: "admin/places/new", element: <AdminPlaceFormPage /> },
+        { path: "admin/places/:id/edit", element: <AdminPlaceEditPage /> },
+        { path: "admin/inquiries", element: <AdminInquiriesPage /> },
+        { path: "*", element: <NotFoundPage /> },
+      ],
+    },
+  ],
   {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { index: true, element: <HomePage /> },
-      { path: "main", element: <ServiceMainPage /> },
-      { path: "places", element: <PlacesPage /> },
-      { path: "places/:id", element: <PlaceDetailPage /> },
-      { path: "login", element: <LoginPage /> },
-      { path: "login/callback", element: <LoginCallbackPage /> },
-      { path: "signup", element: <SignupPage /> },
-      {
-        element: <ProtectedRoute />,
-        children: [
-          { path: "mypage", element: <MyPage /> },
-          { path: "mypage/favorites", element: <FavoritesPage /> },
-          { path: "mypage/reviews", element: <ReviewsPage /> },
-          { path: "mypage/profile", element: <ProfilePage /> },
-        ],
-      },
-      { path: "admin", element: <AdminHomePage /> },
-      { path: "admin/places", element: <AdminPlacesPage /> },
-      { path: "admin/places/new", element: <AdminPlaceFormPage /> },
-      { path: "admin/places/:id/edit", element: <AdminPlaceEditPage /> },
-      { path: "admin/inquiries", element: <AdminInquiriesPage /> },
-      { path: "*", element: <NotFoundPage /> },
-    ],
+    basename: import.meta.env.BASE_URL,
   },
-]);
+);
 
 export default router;

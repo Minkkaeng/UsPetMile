@@ -8,7 +8,9 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const redirectUri = import.meta.env.VITE_OAUTH_REDIRECT_URI ?? `${window.location.origin}/login/callback`;
+  const redirectBase = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const redirectUri =
+    import.meta.env.VITE_OAUTH_REDIRECT_URI ?? `${window.location.origin}${redirectBase}/login/callback`;
   const kakaoClientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const naverClientId = import.meta.env.VITE_NAVER_CLIENT_ID;
