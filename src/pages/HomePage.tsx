@@ -88,29 +88,29 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="img-col translate-up">
                 <img
-                  src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1000&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=800"
                   className="w-full object-cover rounded-lg grayscale hover:grayscale-0 transition duration-500"
-                  style={{ height: "16rem", borderRadius: "0.5rem", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                  alt="Dog Walking"
+                  style={{ height: "24rem", borderRadius: "0.5rem", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
+                  alt="Dog"
                 />
                 <img
-                  src="https://images.unsplash.com/photo-1517635676447-3a480fbfd8f2?q=80&w=1000&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=800"
                   className="w-full object-cover rounded-lg grayscale hover:grayscale-0 transition duration-500"
-                  style={{ height: "12rem", borderRadius: "0.5rem", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
+                  style={{ height: "18rem", borderRadius: "0.5rem", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
                   alt="Pet Cafe"
                 />
               </div>
               <div className="img-col">
                 <img
-                  src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=1000&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800"
                   className="w-full object-cover rounded-lg grayscale hover:grayscale-0 transition duration-500"
-                  style={{ height: "12rem", borderRadius: "0.5rem", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                  alt="Cat Travel"
+                  style={{ height: "18rem", borderRadius: "0.5rem", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
+                  alt="Cat"
                 />
                 <img
-                  src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=1000&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&q=80&w=800"
                   className="w-full object-cover rounded-lg grayscale hover:grayscale-0 transition duration-500"
-                  style={{ height: "16rem", borderRadius: "0.5rem", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
+                  style={{ height: "24rem", borderRadius: "0.5rem", boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
                   alt="Dog in Car"
                 />
               </div>
@@ -126,28 +126,28 @@ export default function HomePage() {
                 <div className="grid grid-cols-2 gap-4 h-full content-center">
                   <div className="space-y-4 translate-y-8">
                     <img
-                      src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&q=80&w=800"
-                      className="w-full aspect-[3/4] object-cover rounded-lg shadow-xl"
+                      src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800"
+                      className="w-full aspect-[3/5] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
                       alt="Pet Friendly Cafe"
                     />
                     <img
-                      src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&q=80&w=800"
-                      className="w-full aspect-square object-cover rounded-lg shadow-xl"
+                      src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=800"
+                      className="w-full aspect-[3/4] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
                       alt="Pet Food"
                     />
                   </div>
                   <div className="space-y-4 -translate-y-8">
                     <img
-                      src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800"
-                      className="w-full aspect-square object-cover rounded-lg shadow-xl"
+                      src="https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?auto=format&fit=crop&q=80&w=800"
+                      className="w-full aspect-[3/4] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
                       alt="Pet Hotel"
                     />
                     <img
-                      src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=800"
-                      className="w-full aspect-[3/4] object-cover rounded-lg shadow-xl"
+                      src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&q=80&w=800"
+                      className="w-full aspect-[3/5] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
                       alt="Pet Travel"
                     />
@@ -292,7 +292,7 @@ export default function HomePage() {
                 <div className="footer-info-section">
                   <h3 className="font-mont footer-brand">UsPetMile</h3>
                   <p className="footer-company-info">
-                    (주)어스펫마일 | 대표: 김민경 | 사업자등록번호: 123-45-67890
+                    (주)어스펫마일 | 대표: 최민경 | 사업자등록번호: 123-45-67890
                     <br />
                     통신판매업신고: 제 2024-서울강남-1234호
                     <br />
