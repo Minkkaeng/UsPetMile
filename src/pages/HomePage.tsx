@@ -126,30 +126,30 @@ export default function HomePage() {
                 <div className="grid grid-cols-2 gap-4 h-full content-center">
                   <div className="space-y-4 translate-y-8">
                     <img
-                      src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800"
+                      src="https://images.unsplash.com/photo-152227649307b-d6880242816d?auto=format&fit=crop&q=80&w=800"
                       className="w-full aspect-[3/5] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                      alt="Pet Friendly Cafe"
+                      alt="Dog"
                     />
                     <img
-                      src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=800"
+                      src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=800"
                       className="w-full aspect-[3/4] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                      alt="Pet Food"
+                      alt="Happy Pet"
                     />
                   </div>
                   <div className="space-y-4 -translate-y-8">
                     <img
-                      src="https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?auto=format&fit=crop&q=80&w=800"
+                      src="https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&q=80&w=800"
                       className="w-full aspect-[3/4] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                      alt="Pet Hotel"
+                      alt="Dog Portrait"
                     />
                     <img
-                      src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&q=80&w=800"
+                      src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?auto=format&fit=crop&q=80&w=800"
                       className="w-full aspect-[3/5] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                      alt="Pet Travel"
+                      alt="Pug Travel"
                     />
                   </div>
                 </div>
