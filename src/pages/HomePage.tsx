@@ -1,20 +1,7 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/home.css";
 
 export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/places?search=${encodeURIComponent(searchQuery.trim())}`);
-    } else {
-      navigate("/places");
-    }
-  };
-
   return (
     <>
       <main className="snap-container" id="mainContainer">
@@ -51,27 +38,9 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="animate-fade-up delay-600 w-full max-w-xl">
-              <form onSubmit={handleSearch} className="hero-search-form">
-                <div className="hero-search-input-wrapper">
-                  <i className="ph ph-magnifying-glass hero-search-icon"></i>
-                  <input
-                    type="text"
-                    placeholder="어디로 떠나고 싶으신가요?"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="hero-search-input"
-                  />
-                </div>
-                <button type="submit" className="hero-search-button">
-                  검색하기
-                </button>
-              </form>
-            </div>
-
-            <div className="animate-fade-up delay-700">
-              <Link to="/places" className="cta-link">
-                전체 장소 둘러보기 <i className="ph ph-arrow-right"></i>
+            <div className="animate-fade-up delay-600">
+              <Link to="/main" className="cta-button">
+                지금 둘러보기 <i className="ph ph-arrow-right"></i>
               </Link>
             </div>
           </div>

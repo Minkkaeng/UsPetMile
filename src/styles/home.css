@@ -12,7 +12,7 @@
   position: relative;
 }
 
-/* Sections - Transparent Backgrounds */
+/* Sections */
 .snap-section {
   height: 100vh;
   width: 100%;
@@ -22,31 +22,41 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: transparent !important;
 }
 
-/* Force consistency for elements that were originally black/white */
-.snap-section.text-black {
-  color: #fff !important;
+/* Fullscreen Backgrounds */
+.bg-black {
+  background-color: #000;
+  color: #fff;
 }
 
-.section-big-title,
-.section-mid-title,
-.contact-title {
-  color: #fff !important;
+.bg-white {
+  background-color: #fff;
+  color: #000;
 }
 
-.section-intro-text,
-.section-body-text,
-.section-body-text-alt,
-.contact-subtitle {
-  color: #9ca3af !important;
+.bg-zinc-100 {
+  background-color: #f4f4f5;
+  color: #000;
 }
 
-.bg-white,
-.bg-zinc-100,
 .bg-zinc-900 {
-  background: transparent !important;
+  background-color: #18181b;
+  color: #fff;
+}
+
+/* Restore section titles for light backgrounds */
+.bg-white .section-big-title,
+.bg-white .section-mid-title,
+.bg-white .contact-title,
+.bg-zinc-100 .section-big-title {
+  color: #000 !important;
+}
+
+.bg-white .section-intro-text,
+.bg-white .section-body-text,
+.bg-zinc-100 .section-intro-text {
+  color: #4b5563 !important;
 }
 
 /* Utility Classes */
