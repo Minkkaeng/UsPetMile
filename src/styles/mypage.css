@@ -1,0 +1,298 @@
+/* src/styles/mypage.css */
+
+.mypage-container {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: white;
+}
+
+/* Page Header */
+.mypage-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #333;
+}
+
+.mypage-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #9ca3af;
+  object-fit: cover;
+  border: 1px solid #333;
+}
+
+.mypage-info h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 0.25rem 0;
+  color: white;
+}
+
+.mypage-info p {
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.dashboard-card {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.dashboard-card:hover {
+  border-color: #666;
+  transform: translateY(-2px);
+  background: #1a1a1a;
+}
+
+.dashboard-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.dashboard-label {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.dashboard-count {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}
+
+/* Profile Form */
+.profile-section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #d1d5db;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: white;
+}
+
+.form-input:disabled {
+  background-color: #222;
+  color: #666;
+  cursor: not-allowed;
+  border-color: #333;
+}
+
+/* Pet Card */
+.pet-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.pet-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 0.75rem;
+  background: #111;
+  color: white;
+}
+
+.pet-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  font-size: 1.5rem;
+  color: #666;
+}
+
+.pet-info {
+  flex: 1;
+}
+
+.pet-name {
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+}
+
+.pet-detail {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+.btn-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 1px dashed #444;
+  border-radius: 0.5rem;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+  background: transparent;
+}
+
+.btn-add:hover {
+  border-color: white;
+  color: white;
+  background-color: #222;
+}
+
+.btn-primary {
+  background: white;
+  color: black;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: #e5e5e5;
+}
+
+.btn-secondary {
+  background: #111;
+  color: white;
+  border: 1px solid #333;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: #222;
+  border-color: #555;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #111;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  border: 1px solid #333;
+  color: white;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.close-btn:hover {
+  color: white;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Radio Group */
+.radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: white;
+}
+
+.radio-input {
+  accent-color: white;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: #111;
+}

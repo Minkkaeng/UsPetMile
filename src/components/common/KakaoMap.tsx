@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   interface Window {
     kakao: any;
@@ -19,8 +20,6 @@ export default function KakaoMap({ lat, lng, level = 3 }: KakaoMapProps) {
     // Check if Kakao Map script is loaded
     if (!window.kakao || !window.kakao.maps) {
       // Script not loaded yet.
-      // In a real app, we might want to dynamically load the script here if not present.
-      // For now, we assume it's in index.html
       return;
     }
 

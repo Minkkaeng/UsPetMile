@@ -1,4 +1,12 @@
+import apiClient from "./apiClient";
 import type { Place } from "../types/place";
+
+// --- FRONTEND DEVELOPER NOTE ---
+// Currently using Mock Data.
+// To switch to Real API:
+// 1. Set VITE_USE_MOCK=false in .env
+// 2. Ensure Backend is running at VITE_API_URL
+const USE_MOCK = true;
 
 const mockPlaces: Place[] = [
   {
@@ -308,10 +316,39 @@ const mockPlaces: Place[] = [
 ];
 
 export const getPlaces = async (): Promise<Place[]> => {
-  return mockPlaces;
+  if (USE_MOCK) {
+    // Simulate Network Delay
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mockPlaces);
+      }, 500); // 0.5s delay
+    });
+  }
+
+  // --- BACKEND INTEGRATION POINT ---
+  // API Endpoint: GET /places
+  // Expected Response: Place[]
+  const response = await apiClient.get<Place[]>("/places");
+  return response.data;
 };
 
 export const getPlaceById = async (id: number): Promise<Place | null> => {
-  const places = await getPlaces();
-  return places.find((place) => place.id === id) ?? null;
+  if (USE_MOCK) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const place = mockPlaces.find((p) => p.id === id);
+        resolve(place ?? null);
+      }, 300);
+    });
+  }
+
+  // --- BACKEND INTEGRATION POINT ---
+  // API Endpoint: GET /places/:id
+  // Expected Response: Place
+  try {
+    const response = await apiClient.get<Place>(`/places/${id}`);
+    return response.data;
+  } catch {
+    return null;
+  }
 };

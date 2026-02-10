@@ -3,7 +3,7 @@
 /* Page Layout */
 .places-page {
   min-height: 100vh;
-  background-color: black;
+  background-color: transparent;
   color: white;
   padding-top: 6rem; /* Space for fixed header */
   padding-bottom: 4rem;
@@ -361,13 +361,21 @@
 }
 
 .point-item {
-  background: #111;
-  border: 1px solid #333;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 1.5rem;
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   display: flex;
   align-items: flex-start;
   gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.point-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
 }
 
 .point-icon {
@@ -376,12 +384,14 @@
 }
 
 .policy-card {
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
   padding: 2rem;
   position: sticky;
-  top: 6rem;
+  top: 7rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .policy-row {
@@ -439,4 +449,227 @@
 
 .back-link:hover {
   color: white;
+}
+
+/* Refactored Styles from Inline to CSS */
+.filter-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 2rem;
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+.search-control {
+  flex: 1;
+  max-width: 500px;
+}
+
+.search-field {
+  padding: 1rem 1.75rem;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.search-glass {
+  right: 1.5rem;
+}
+
+.count-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.count-badge {
+  font-size: 0.875rem;
+  color: #888;
+}
+
+.count-strong {
+  color: white;
+}
+
+.error-text {
+  color: #f66;
+}
+
+.loading-box {
+  color: white;
+  padding: 4rem;
+  text-align: center;
+}
+
+.back-link-wrapper {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.detail-section {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+}
+
+.detail-description {
+  color: #ddd;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.point-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: white;
+}
+
+.point-value {
+  color: #aaa;
+}
+
+.map-placeholder {
+  width: 100%;
+  height: 300px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  color: #666;
+}
+
+.detail-tag-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.detail-tag {
+  background: #222;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.policy-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 1rem;
+}
+
+.btn-full {
+  text-decoration: none;
+  display: block;
+}
+
+.btn-ghost {
+  text-decoration: none;
+  display: block;
+}
+
+.filter-row-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.modern-select {
+  background: #111;
+  border: 1px solid #333;
+  padding: 0.6rem 2.5rem 0.6rem 1.25rem;
+}
+
+.segmented-control {
+  display: flex;
+  background: #111;
+  border-radius: 1000px;
+  padding: 0.25rem;
+  border: 1px solid #333;
+}
+
+.segmented-button {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.75rem;
+  background: transparent;
+  color: #666;
+  border: none;
+  border-radius: 1000px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.segmented-button.active {
+  background: white;
+  color: black;
+}
+
+.chip-small {
+  font-size: 0.75rem;
+  padding: 0.4rem 1rem;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.pet-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+.places-page-bottom {
+  padding-bottom: 4rem;
+}
+
+.bg-dark-placeholder {
+  background: #222;
+}
+
+.back-link-muted {
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.btn-secondary {
+  background: white !important;
+  color: black !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.btn-ghost {
+  display: block;
+  background: black;
+  color: white;
+  border: none;
 }

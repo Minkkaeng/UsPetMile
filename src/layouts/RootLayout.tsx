@@ -1,12 +1,13 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import BottomNav from "../components/common/BottomNav";
 import Header from "../components/common/Header";
+import ScrollToTop from "../components/common/ScrollToTop";
 
 export default function RootLayout() {
-  const location = useLocation();
   return (
     <div className="app-shell">
-      {location.pathname !== "/" && <Header />}
+      <ScrollToTop />
+      <Header />
       <main>
         <Outlet />
       </main>

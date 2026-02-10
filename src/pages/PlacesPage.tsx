@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import Container from "../components/common/Container";
 import PlaceCard from "../components/place/PlaceCard";
 import { getPlaces } from "../services/placeApi";
 import type { Place, PlaceCategory } from "../types/place";
@@ -12,12 +14,14 @@ type DogSize = "all" | "small" | "medium" | "large";
 type ToggleOption = "all" | "yes" | "no";
 
 export default function PlacesPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [places, setPlaces] = useState<Place[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<"전체" | PlaceCategory>("전체");
+  const query = searchParams.get("search") || "";
+  const category = (searchParams.get("category") || "전체") as PlaceCategory | "전체";
+
   const [sortBy, setSortBy] = useState<SortOption>("recommended");
   const [petType, setPetType] = useState<PetType>("dog");
   const [dogSize, setDogSize] = useState<DogSize>("all");
@@ -36,7 +40,7 @@ export default function PlacesPage() {
         }
       } catch {
         if (isMounted) {
-          setError("장소 데이터를 불러오지 못했어요.");
+          setError("데이터를 불러오지 못했습니다.");
         }
       } finally {
         if (isMounted) {
@@ -50,182 +54,176 @@ export default function PlacesPage() {
     };
   }, []);
 
+  const handleQueryChange = (value: string) => {
+    setSearchParams(
+      (prev) => {
+        const newParams = new URLSearchParams(prev);
+        if (value) newParams.set("search", value);
+        else newParams.delete("search");
+        return newParams;
+      },
+      { replace: true },
+    );
+  };
+
+  const handleCategoryChange = (newCat: string) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (newCat === "전체") newParams.delete("category");
+      else newParams.set("category", newCat);
+      return newParams;
+    });
+  };
+
   const filteredPlaces = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+    const norm = query.trim().toLowerCase();
     const filtered = places
-      .filter((place) => (category === "전체" ? true : place.category === category))
-      .filter((place) => {
-        if (!normalizedQuery) return true;
-        const haystack = `${place.title} ${place.address}`.toLowerCase();
-        return haystack.includes(normalizedQuery);
+      .filter((p) => (category === "전체" ? true : p.category === category))
+      .filter((p) => {
+        if (!norm) return true;
+        return (
+          p.title.toLowerCase().includes(norm) ||
+          p.address.toLowerCase().includes(norm) ||
+          p.tags.some((t) => t.toLowerCase().includes(norm))
+        );
       })
-      .filter((place) => {
-        if (!place.policy) return false;
-        if (petType === "dog" && !place.policy.dogAllowed) return false;
-        if (petType === "cat" && !place.policy.catAllowed) return false;
-        if (petType === "dog" && dogSize !== "all" && !place.policy.dogSize[dogSize]) return false;
-        if (indoorAllowed !== "all") {
-          if (place.policy.indoorAllowed !== (indoorAllowed === "yes")) return false;
-        }
-        if (extraFee !== "all") {
-          if (place.policy.extraFee !== (extraFee === "yes")) return false;
-        }
+      .filter((p) => {
+        if (!p.policy) return false;
+        if (petType === "dog" && !p.policy.dogAllowed) return false;
+        if (petType === "cat" && !p.policy.catAllowed) return false;
+        if (petType === "dog" && dogSize !== "all" && !p.policy.dogSize[dogSize as keyof typeof p.policy.dogSize])
+          return false;
+        if (indoorAllowed !== "all" && p.policy.indoorAllowed !== (indoorAllowed === "yes")) return false;
+        if (extraFee !== "all" && p.policy.extraFee !== (extraFee === "yes")) return false;
         return true;
       });
 
-    if (sortBy === "name") {
-      return [...filtered].sort((a, b) => a.title.localeCompare(b.title));
-    }
-    if (sortBy === "latest") {
-      return [...filtered].sort((a, b) => b.id - a.id);
-    }
-    return filtered;
-  }, [places, category, query, sortBy]);
+    return [...filtered].sort((a, b) => {
+      if (sortBy === "name") return a.title.localeCompare(b.title);
+      if (sortBy === "latest") return b.id - a.id;
+      return 0;
+    });
+  }, [places, category, query, sortBy, petType, dogSize, indoorAllowed, extraFee]);
 
   return (
-    <section className="places-page">
-      <div className="places-container">
-        {/* Header */}
-        <div className="places-header">
-          <h1 className="places-title">Find Your Place</h1>
-          <p className="places-subtitle">
-            반려동물과 함께할 수 있는 최고의 장소들을 발견하세요.
-            <br />
-            엄선된 숙소, 카페, 맛집이 기다리고 있습니다.
-          </p>
-        </div>
+    <div className="places-page">
+      <Container className="places-container">
+        {/* Filters Panel */}
+        <section className="filter-card">
+          {/* Row 1: Search & Sort */}
+          <div className="filter-row-top">
+            <div className="search-control">
+              <input
+                type="text"
+                className="search-input search-field"
+                placeholder="어디로 갈까요?"
+                value={query}
+                onChange={(e) => handleQueryChange(e.target.value)}
+              />
+              <i className="ph ph-magnifying-glass search-icon search-glass"></i>
+            </div>
 
-        {/* Filters */}
-        <div className="filter-section">
-          {/* Top Row: Search & Main Sort */}
-          <div className="filter-row-main">
+            <div className="sort-control">
+              <span className="count-badge">정렬:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="select modern-select"
+              >
+                <option value="recommended">추천순</option>
+                <option value="latest">최신순</option>
+                <option value="name">이름순</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Row 2: Categories */}
+          <div className="mb-8">
             <div className="filter-group-new">
-              <span className="filter-label-new">Type</span>
-              {["dog", "cat"].map((type) => (
+              <span className="filter-label-new">CATEGORY</span>
+              {categories.map((c) => (
                 <button
-                  key={type}
-                  className={`chip-new ${petType === type ? "active" : ""}`}
-                  onClick={() => setPetType(type as PetType)}
+                  key={c}
+                  onClick={() => handleCategoryChange(c)}
+                  className={`chip-new ${category === c ? "active" : ""}`}
                 >
-                  {type === "dog" ? "DOG" : "CAT"}
+                  {c}
                 </button>
               ))}
             </div>
+          </div>
 
-            <div className="search-wrapper">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Search places..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              <i className="ph ph-magnifying-glass search-icon"></i>
+          {/* Row 3: Pet Filters */}
+          <div className="pet-filter-row">
+            <div className="filter-group-new">
+              <span className="filter-label-new">PET TYPE</span>
+              <div className="segmented-control">
+                {["dog", "cat"].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setPetType(type as PetType)}
+                    className={`segmented-button ${petType === type ? "active" : ""}`}
+                  >
+                    {type.toUpperCase()}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Categories */}
-          <div className="filter-group-new">
-            <span className="filter-label-new">Category</span>
-            {categories.map((item) => (
-              <button
-                key={item}
-                className={`chip-new ${category === item ? "active" : ""}`}
-                onClick={() => setCategory(item)}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-
-          {/* Detailed Filters (Conditional) */}
-          <div className="filter-row-main" style={{ alignItems: "flex-start", gap: "2rem" }}>
             {petType === "dog" && (
               <div className="filter-group-new">
-                <span className="filter-label-new">Size</span>
-                {[
-                  { label: "ALL", value: "all" },
-                  { label: "SMALL", value: "small" },
-                  { label: "MEDIUM", value: "medium" },
-                  { label: "LARGE", value: "large" },
-                ].map((item) => (
+                <span className="filter-label-new">SIZE</span>
+                {["all", "small", "medium", "large"].map((s) => (
                   <button
-                    key={item.value}
-                    className={`chip-new ${dogSize === item.value ? "active" : ""}`}
-                    onClick={() => setDogSize(item.value as DogSize)}
+                    key={s}
+                    onClick={() => setDogSize(s as DogSize)}
+                    className={`chip-new chip-small ${dogSize === s ? "active" : ""}`}
                   >
-                    {item.label}
+                    {s === "all" ? "전체" : s === "small" ? "소형" : s === "medium" ? "중형" : "대형"}
                   </button>
                 ))}
               </div>
             )}
 
             <div className="filter-group-new">
-              <span className="filter-label-new">Options</span>
+              <span className="filter-label-new">POLICY</span>
               <button
-                className={`chip-new ${indoorAllowed === "yes" ? "active" : ""}`}
                 onClick={() => setIndoorAllowed(indoorAllowed === "yes" ? "all" : "yes")}
+                className={`chip-new chip-small ${indoorAllowed === "yes" ? "active" : ""}`}
               >
-                INDOOR
+                실내 가능
               </button>
               <button
-                className={`chip-new ${extraFee === "no" ? "active" : ""}`}
                 onClick={() => setExtraFee(extraFee === "no" ? "all" : "no")}
+                className={`chip-new chip-small ${extraFee === "no" ? "active" : ""}`}
               >
-                NO EXTRA FEE
+                무료 입장
               </button>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Results */}
-        <div
-          className="results-header"
-          style={{
-            marginBottom: "1rem",
-            color: "#666",
-            fontSize: "0.875rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <span>Showing {filteredPlaces.length} places</span>
-
-          <select
-            className="search-input"
-            style={{ width: "auto", padding: "0.5rem 2rem 0.5rem 1rem", fontSize: "0.875rem" }}
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortOption)}
-          >
-            <option value="recommended">Recommended</option>
-            <option value="latest">Newest</option>
-            <option value="name">Name</option>
-          </select>
+        <div className="results-header">
+          <span className="count-badge">
+            총 <strong className="count-strong">{filteredPlaces.length}</strong>개의 장소
+          </span>
         </div>
 
-        {isLoading && (
-          <div className="places-grid-new">
-            {/* Skeletons could go here, for now just loading text or reuse skeleton component if adapted */}
-            <div style={{ color: "white" }}>Loading...</div>
-          </div>
-        )}
-
-        {!isLoading && !error && filteredPlaces.length === 0 && (
-          <div className="empty-state-new">
-            <i className="ph ph-paw-print" style={{ fontSize: "3rem", marginBottom: "1rem", display: "block" }}></i>
-            No places found matching your criteria.
-          </div>
-        )}
-
-        {!isLoading && !error && filteredPlaces.length > 0 && (
+        {isLoading ? (
+          <div className="empty-state-new">데이터를 가져오는 중...</div>
+        ) : error ? (
+          <div className="empty-state-new error-text">{error}</div>
+        ) : filteredPlaces.length === 0 ? (
+          <div className="empty-state-new">일치하는 장소가 없습니다.</div>
+        ) : (
           <div className="places-grid-new">
             {filteredPlaces.map((place) => (
               <PlaceCard key={place.id} place={place} />
             ))}
           </div>
         )}
-      </div>
-    </section>
+      </Container>
+    </div>
   );
 }

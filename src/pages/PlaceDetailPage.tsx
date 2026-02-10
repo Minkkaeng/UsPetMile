@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import KakaoMap from "../components/common/KakaoMap";
+import ReviewForm from "../components/review/ReviewForm";
+import ReviewList from "../components/review/ReviewList";
 import { getPlaceById } from "../services/placeApi";
+import { createReview, getReviewsByPlaceId } from "../services/reviewApi";
 import type { Place } from "../types/place";
+import type { Review, ReviewFormInput } from "../types/review";
 import "../styles/places.css";
 
 export default function PlaceDetailPage() {
   const { id } = useParams();
   const [place, setPlace] = useState<Place | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [showReviewForm, setShowReviewForm] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,14 +30,17 @@ export default function PlaceDetailPage() {
           }
           return;
         }
-        const data = await getPlaceById(targetId);
+
+        const [placeData, reviewsData] = await Promise.all([getPlaceById(targetId), getReviewsByPlaceId(targetId)]);
+
         if (isMounted) {
-          setPlace(data);
-          setError(data ? null : "장소 정보를 찾을 수 없습니다.");
+          setPlace(placeData);
+          setReviews(reviewsData);
+          setError(placeData ? null : "장소 정보를 찾을 수 없습니다.");
         }
       } catch {
         if (isMounted) {
-          setError("장소 정보를 불러오지 못했어요.");
+          setError("정보를 불러오지 못했어요.");
         }
       } finally {
         if (isMounted) {
@@ -45,11 +54,22 @@ export default function PlaceDetailPage() {
     };
   }, [id]);
 
+  const handleCreateReview = async (data: ReviewFormInput) => {
+    if (!place) return;
+    try {
+      const newReview = await createReview(place.id, data);
+      setReviews((prev) => [newReview, ...prev]);
+      setShowReviewForm(false);
+    } catch {
+      alert("리뷰 등록 중 오류가 발생했습니다.");
+    }
+  };
+
   if (isLoading) {
     return (
       <section className="places-page">
         <div className="places-container">
-          <div style={{ color: "white", padding: "4rem", textAlign: "center" }}>Loading details...</div>
+          <div className="loading-box">Loading details...</div>
         </div>
       </section>
     );
@@ -60,8 +80,8 @@ export default function PlaceDetailPage() {
       <section className="places-page">
         <div className="places-container">
           <div className="empty-state-new">{error ?? "장소를 찾을 수 없습니다."}</div>
-          <div style={{ marginTop: "2rem", textAlign: "center" }}>
-            <Link className="back-link" to="/places" style={{ display: "inline-flex" }}>
+          <div className="back-link-wrapper">
+            <Link className="back-link inline-flex" to="/places">
               <i className="ph ph-arrow-left"></i> 목록으로 돌아가기
             </Link>
           </div>
@@ -71,17 +91,17 @@ export default function PlaceDetailPage() {
   }
 
   return (
-    <section style={{ backgroundColor: "black", minHeight: "100vh", paddingBottom: "4rem" }}>
+    <section className="places-page places-page-bottom">
       {/* Hero Section */}
       <div className="detail-hero-section">
         {place.image ? (
           <img src={place.image} alt={place.title} className="detail-hero-image" />
         ) : (
-          <div className="detail-hero-image" style={{ background: "#222" }} />
+          <div className="detail-hero-image bg-dark-placeholder" />
         )}
         <div className="detail-overlay">
           <div className="detail-header-content">
-            <Link to="/places" className="back-link" style={{ marginBottom: "1rem", color: "rgba(255,255,255,0.7)" }}>
+            <Link to="/places" className="back-link back-link-muted">
               <i className="ph ph-arrow-left"></i> Back to List
             </Link>
             <div className="detail-badge">{place.category}</div>
@@ -98,27 +118,25 @@ export default function PlaceDetailPage() {
         {/* Left Column: Main Info */}
         <div className="detail-main">
           {/* Description */}
-          <div className="mb-10">
+          <div className="detail-section mb-10">
             <h2 className="section-title">
               <i className="ph-fill ph-info"></i> About
             </h2>
-            <p style={{ color: "#ddd", lineHeight: "1.8", fontSize: "1.1rem" }}>
-              {place.description || "등록된 소개가 없습니다."}
-            </p>
+            <p className="detail-description">{place.description || "등록된 소개가 없습니다."}</p>
           </div>
 
           {/* Info Table (Phone, Hours, Use) */}
-          <div className="mb-10">
+          <div className="detail-section mb-10">
             <h2 className="section-title">
               <i className="ph-fill ph-list-dashes"></i> Information
             </h2>
-            <div className="point-list" style={{ gridTemplateColumns: "1fr", gap: "1rem" }}>
+            <div className="point-list">
               {place.phoneNumber && (
                 <div className="point-item">
                   <i className="ph-fill ph-phone point-icon"></i>
                   <div>
-                    <strong style={{ display: "block", marginBottom: "0.25rem", color: "white" }}>Phone</strong>
-                    <span style={{ color: "#aaa" }}>{place.phoneNumber}</span>
+                    <strong className="point-label">Phone</strong>
+                    <span className="point-value">{place.phoneNumber}</span>
                   </div>
                 </div>
               )}
@@ -126,8 +144,8 @@ export default function PlaceDetailPage() {
                 <div className="point-item">
                   <i className="ph-fill ph-clock point-icon"></i>
                   <div>
-                    <strong style={{ display: "block", marginBottom: "0.25rem", color: "white" }}>Hours</strong>
-                    <span style={{ color: "#aaa" }}>{place.operatingHours}</span>
+                    <strong className="point-label">Hours</strong>
+                    <span className="point-value">{place.operatingHours}</span>
                   </div>
                 </div>
               )}
@@ -135,13 +153,8 @@ export default function PlaceDetailPage() {
                 <div className="point-item">
                   <i className="ph-fill ph-globe point-icon"></i>
                   <div>
-                    <strong style={{ display: "block", marginBottom: "0.25rem", color: "white" }}>Website</strong>
-                    <a
-                      href={place.homepageUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{ color: "#aaa", textDecoration: "underline" }}
-                    >
+                    <strong className="point-label">Website</strong>
+                    <a href={place.homepageUrl} target="_blank" rel="noreferrer" className="point-value text-underline">
                       Visit Website
                     </a>
                   </div>
@@ -151,33 +164,20 @@ export default function PlaceDetailPage() {
           </div>
 
           {/* Map Section */}
-          <div className="mb-10">
+          <div className="detail-section mb-10">
             <h2 className="section-title">
               <i className="ph-fill ph-map-trifold"></i> Location
             </h2>
             {place.coordinates ? (
               <KakaoMap lat={place.coordinates.lat} lng={place.coordinates.lng} />
             ) : (
-              <div
-                style={{
-                  width: "100%",
-                  height: "300px",
-                  background: "#111",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "0.5rem",
-                  color: "#666",
-                }}
-              >
-                지도를 불러올 수 없습니다.
-              </div>
+              <div className="map-placeholder">지도를 불러올 수 없습니다.</div>
             )}
             <p style={{ marginTop: "1rem", color: "#888" }}>{place.address}</p>
           </div>
 
           {/* Points Section */}
-          <div className="mb-10">
+          <div className="detail-section mb-10">
             <h2 className="section-title">
               <i className="ph-fill ph-star"></i> Key Points
             </h2>
@@ -187,10 +187,8 @@ export default function PlaceDetailPage() {
                   <div key={index} className="point-item">
                     <i className="ph-fill ph-check-circle point-icon"></i>
                     <div>
-                      <strong style={{ display: "block", marginBottom: "0.25rem", color: "white" }}>
-                        Point {index + 1}
-                      </strong>
-                      <span style={{ color: "#aaa" }}>{point}</span>
+                      <strong className="point-label">Point {index + 1}</strong>
+                      <span className="point-value">{point}</span>
                     </div>
                   </div>
                 ))
@@ -201,43 +199,48 @@ export default function PlaceDetailPage() {
           </div>
 
           {/* Tags Section */}
-          <div className="mb-10">
+          <div className="detail-section mb-10">
             <h2 className="section-title">
               <i className="ph-fill ph-tag"></i> Tags
             </h2>
-            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+            <div className="detail-tag-group">
               {place.tags.map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    background: "#222",
-                    padding: "0.5rem 1rem",
-                    borderRadius: "2rem",
-                    fontSize: "0.9rem",
-                    color: "#ccc",
-                  }}
-                >
+                <span key={tag} className="detail-tag">
                   #{tag}
                 </span>
               ))}
             </div>
+          </div>
+
+          {/* Reviews Section */}
+          <div className="detail-section mb-10" id="reviews">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="section-title mb-0 flex items-center gap-2">
+                <i className="ph-fill ph-chat-text"></i> Reviews{" "}
+                <span className="text-gray-500 text-lg">({reviews.length})</span>
+              </h2>
+              <button
+                onClick={() => setShowReviewForm(!showReviewForm)}
+                className="bg-white text-black px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors"
+              >
+                {showReviewForm ? "취소" : "리뷰 작성"}
+              </button>
+            </div>
+
+            {showReviewForm && (
+              <div className="mb-8">
+                <ReviewForm title={place.title} onSubmit={handleCreateReview} />
+              </div>
+            )}
+
+            <ReviewList reviews={reviews} />
           </div>
         </div>
 
         {/* Right Column: Sticky Policy Card */}
         <div className="detail-sidebar">
           <div className="policy-card">
-            <h3
-              style={{
-                fontSize: "1.25rem",
-                fontWeight: "bold",
-                marginBottom: "1.5rem",
-                borderBottom: "1px solid #333",
-                paddingBottom: "1rem",
-              }}
-            >
-              Pet Policy
-            </h3>
+            <h3 className="policy-title">Pet Policy</h3>
 
             {place.policy ? (
               <>
@@ -278,7 +281,31 @@ export default function PlaceDetailPage() {
               <p className="muted">정책 정보가 없습니다.</p>
             )}
 
-            <button className="booking-btn">예약하기 / 문의하기</button>
+            <div className="flex flex-col gap-3 mt-6">
+              {place.homepageUrl && (
+                <a
+                  href={place.homepageUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="booking-btn text-center hover:no-underline btn-full"
+                >
+                  홈페이지 예약
+                </a>
+              )}
+              {place.phoneNumber && (
+                <a
+                  href={`tel:${place.phoneNumber}`}
+                  className={`booking-btn text-center hover:no-underline btn-ghost ${place.homepageUrl ? "btn-secondary" : ""}`}
+                >
+                  전화 문의 ({place.phoneNumber})
+                </a>
+              )}
+              {!place.homepageUrl && !place.phoneNumber && (
+                <button disabled className="booking-btn opacity-50 cursor-not-allowed">
+                  문의 정보 없음
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

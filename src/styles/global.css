@@ -15,6 +15,15 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  /* Prevent text cursor on click */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Allow selection only in specific inputs or areas if needed */
+input,
+textarea {
+  user-select: auto;
 }
 
 a {
@@ -44,6 +53,14 @@ select {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Premium high-resolution atmospheric background - Unified for all pages */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://images.unsplash.com/photo-1541414779316-957a5f3bb618?q=80&w=2574&auto=format&fit=crop");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
 }
 
 .page {
@@ -321,15 +338,19 @@ select {
 }
 
 .app-header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  height: var(--header-height);
+  left: 0;
+  width: 100%;
+  height: 80px;
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border);
-  z-index: 10;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: white;
+  z-index: 100;
+  padding: 0 2rem;
 }
 
 .header-content {
@@ -337,26 +358,67 @@ select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
 }
 
 .brand {
   font-family: var(--font-display);
-  font-size: 1.25rem;
-  letter-spacing: 0.04em;
-  color: var(--color-accent-strong);
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: white;
+  text-transform: none;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  color: var(--color-muted);
-  font-size: 0.95rem;
+  gap: 3rem;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.nav-links a.active {
-  color: var(--color-text);
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 0.5rem;
+}
+
+.nav-link {
+  position: relative;
+  padding-bottom: 2px;
+  cursor: pointer;
+  color: white;
+  transition: opacity 0.3s;
+}
+
+.nav-link:hover {
+  opacity: 0.7;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
 }
 
 .bottom-nav {
@@ -501,20 +563,38 @@ select {
 
 .place-card {
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.place-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .place-card__media {
   position: relative;
-  height: 180px;
-  background: var(--color-surface-strong);
+  height: 200px;
+  background: rgba(255, 255, 255, 0.05);
   overflow: hidden;
 }
 
-.place-card__media img,
-.media-fallback {
+.place-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.place-card:hover .place-card__media img {
+  transform: scale(1.1);
 }
 
 .media-fallback {
@@ -819,13 +899,14 @@ select {
 
 .auth-card {
   width: min(420px, 100%);
-  padding: var(--space-8);
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  padding: var(--space-10);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 .auth-form {
