@@ -126,30 +126,30 @@ export default function HomePage() {
                 <div className="grid grid-cols-2 gap-4 h-full content-center">
                   <div className="space-y-4 translate-y-8">
                     <img
-                      src="https://images.unsplash.com/photo-152227649307b-d6880242816d?auto=format&fit=crop&q=80&w=800"
+                      src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800"
                       className="w-full aspect-[3/5] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
                       alt="Dog"
                     />
                     <img
-                      src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=800"
+                      src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=800"
                       className="w-full aspect-[3/4] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                      alt="Happy Pet"
+                      alt="Happy Dog"
                     />
                   </div>
                   <div className="space-y-4 -translate-y-8">
                     <img
-                      src="https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&q=80&w=800"
+                      src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=800"
                       className="w-full aspect-[3/4] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                      alt="Dog Portrait"
+                      alt="Cool Cat"
                     />
                     <img
-                      src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?auto=format&fit=crop&q=80&w=800"
+                      src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=800"
                       className="w-full aspect-[3/5] object-cover rounded-lg shadow-xl"
                       style={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                      alt="Pug Travel"
+                      alt="Golden Retriever"
                     />
                   </div>
                 </div>
