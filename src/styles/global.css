@@ -337,13 +337,41 @@ select {
   height: 80px;
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03); /* Much more transparent */
+  backdrop-filter: blur(20px) saturate(180%); /* Stronger blur and saturation for premium glass feel */
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
   color: white;
   z-index: 100;
   padding: 0 2rem;
+  transition: all 0.4s ease;
 }
+
+.app-header.header-light {
+  color: #000;
+  background: rgba(255, 255, 255, 0.4); /* Slightly more opaque white glass on white bg */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.app-header.header-light .brand,
+.app-header.header-light .nav-link {
+  color: #000;
+}
+
+.app-header.header-light .nav-link::after {
+  background-color: #000;
+}
+
+.app-header.header-light .nav-divider {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.app-header.header-light .nav-link[style*="border: 1px solid white"] {
+  border-color: #000 !important;
+}
+
+/* Optional: Add a slightly darker tint when scrolling inside snap-container if needed, 
+   but for now let's focus on the transparency requested */
 
 .header-content {
   width: 100%;
