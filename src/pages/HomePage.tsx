@@ -146,11 +146,22 @@ const ParticleCanvas = ({ isExploding }: { isExploding: boolean }) => {
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState("home");
-  const [isLoaded, setIsLoaded] = useState(false);
+  // Check if intro has already played in this session to avoid repeats
+  const [isLoaded, setIsLoaded] = useState(() => {
+    return sessionStorage.getItem("introPlayed") === "true";
+  });
 
   useEffect(() => {
-    // Initial cinematic reveal sequence
-    const timer = setTimeout(() => setIsLoaded(true), 3000);
+    // Initial cinematic reveal sequence - only if not played before
+    let timer: any;
+
+    if (!sessionStorage.getItem("introPlayed")) {
+      timer = setTimeout(() => {
+        setIsLoaded(true);
+        sessionStorage.setItem("introPlayed", "true");
+      }, 3000);
+    }
+
     const observerOptions = {
       root: null,
       rootMargin: "0px",
